@@ -538,7 +538,13 @@
   const taxType    = p.get('type')     || '';
   const deadline   = p.get('deadline') || '';
   const notionLink = p.get('notion')   || '#';
-  const driveLink  = p.get('drive')    || '#';
+  const driveId  = p.get('drive')    || '#';
+
+  if (driveId) {
+  document.getElementById('driveBtn').href = `https://drive.google.com/drive/folders/${driveId}`;
+} else {
+  document.getElementById('driveBtn').href = '#';
+}
 
   /* Make webhook URL */
   const HOOK = 'https://hook.us2.make.com/7qmgrr2vfzvadz4ecow123ncmo02rb1t';
