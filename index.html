@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>세무자료 제출 안내</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:        #1b3a5c;
+      --navy-mid:    #234d78;
+      --navy-subtle: #eef3f8;
+      --navy-border: #c4d6e8;
+      --amber:       #d4820a;
+      --amber-bg:    #fff8ec;
+      --amber-border:#e8a020;
+      --amber-text:  #5f3605;
+      --green:       #1a7a4a;
+      --green-bg:    #edf8f2;
+      --gray-100:    #f4f6f9;
+      --gray-200:    #e8e8e4;
+      --gray-400:    #a4a09a;
+      --gray-600:    #6b6864;
+      --gray-800:    #2e2c29;
+      --white:       #ffffff;
+      --radius:      12px;
+      --radius-sm:   8px;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', -apple-system, sans-serif;
+      background: linear-gradient(160deg, #dce7f2 0%, #eef2f7 55%, #f0ede8 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 16px 60px;
+      color: var(--gray-800);
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 420px;
+      box-shadow:
+        0 1px 2px rgba(27,58,92,0.06),
+        0 4px 16px rgba(27,58,92,0.10),
+        0 12px 40px rgba(27,58,92,0.08);
+    }
+
+    /* ── Header ── */
+    .card-header {
+      background: var(--navy);
+      background: linear-gradient(135deg, #162f4a 0%, var(--navy) 50%, #1e4570 100%);
+      padding: 22px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Subtle decorative circle in corner */
+    .card-header::after {
+      content: '';
+      position: absolute;
+      top: -28px; right: -28px;
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      pointer-events: none;
+    }
+
+    /* Logo: clean white badge — no more ugly square */
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(255,255,255,0.97);
+      border-radius: 8px;
+      padding: 5px 11px;
+      width: fit-content;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.12);
+    }
+    .logo-badge img {
+      height: 26px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .header-greeting {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.65;
+    }
+    .header-greeting strong {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .tax-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 20px;
+      padding: 4px 11px;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.88);
+      width: fit-content;
+    }
+
+    /* ── Deadline bar ── */
+    .deadline-bar {
+      background: var(--amber-bg);
+      border-bottom: 1.5px solid var(--amber-border);
+      padding: 10px 18px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--amber-text);
+    }
+    .deadline-bar.show { display: flex; }
+    .deadline-bar svg { flex-shrink: 0; }
+
+    /* ── Guide section ── */
+    .guide-section {
+      padding: 18px 20px 0;
+    }
+    .guide-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 13px;
+    }
+    .guide-header-text {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gray-400);
+      letter-spacing: 0.04em;
+    }
+    .guide-header-line {
+      flex: 1;
+      height: 1px;
+      background: var(--gray-200);
+    }
+
+    .guide-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .guide-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .guide-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .guide-text {
+      font-size: 13px;
+      color: var(--gray-600);
+      line-height: 1.65;
+      padding-top: 2px;
+    }
+    .guide-text strong {
+      color: var(--gray-800);
+      font-weight: 700;
+    }
+
+    /* ── Link buttons ── */
+    .links {
+      padding: 16px 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .link-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--white);
+      border: 1.5px solid var(--navy-border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.14s, border-color 0.14s, transform 0.1s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .link-btn:hover  { background: var(--navy-subtle); border-color: #a8c4dc; }
+    .link-btn:active { background: #dce9f3; border-color: #8fb8d4; transform: scale(0.99); }
+
+    .link-btn .btn-icon {
+      width: 38px; height: 38px;
+      border-radius: var(--radius-sm);
+      background: var(--navy-subtle);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .link-btn .btn-text { flex: 1; }
+    .link-btn .btn-text .t1 {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--navy);
+      display: block;
+    }
+    .link-btn .btn-text .t2 {
+      font-size: 11.5px;
+      color: var(--gray-400);
+      display: block;
+      margin-top: 1px;
+    }
+    .link-btn .arr {
+      color: var(--navy-border);
+      font-size: 22px;
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    /* ── Action notice (replaces divider) ── */
+    .action-notice {
+      margin: 16px 20px 0;
+      background: var(--navy-subtle);
+      border: 1.5px solid var(--navy-border);
+      border-left: 3px solid var(--navy);
+      border-radius: var(--radius-sm);
+      padding: 11px 14px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 13px;
+      color: var(--navy);
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .notice-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--navy);
+      flex-shrink: 0;
+      animation: notice-pulse 2s ease-in-out infinite;
+    }
+    @keyframes notice-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.75); }
+    }
+
+    /* ── Error ── */
+    .error-box {
+      display: none;
+      margin: 12px 20px 0;
+      background: #fdf0f0;
+      border: 1px solid #f0a0a0;
+      border-radius: var(--radius-sm);
+      padding: 10px 13px;
+      font-size: 13px;
+      color: #b83232;
+      line-height: 1.5;
+    }
+    .error-box.show { display: block; }
+
+    /* ── CTA buttons ── */
+    .cta-grid {
+      padding: 14px 20px 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .cta-btn {
+      border-radius: var(--radius);
+      padding: 16px 10px;
+      font-size: 13.5px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      transition: opacity 0.14s, transform 0.1s, box-shadow 0.14s;
+      -webkit-tap-highlight-color: transparent;
+      line-height: 1.4;
+      text-align: center;
+    }
+    .cta-btn:active   { transform: scale(0.97); opacity: 0.88; }
+    .cta-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none !important; }
+
+    .cta-btn .cta-icon {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .btn-submitted {
+      background: var(--navy);
+      color: #fff;
+      box-shadow: 0 3px 12px rgba(27,58,92,0.28);
+    }
+    .btn-submitted:hover:not(:disabled) { box-shadow: 0 4px 18px rgba(27,58,92,0.38); }
+    .btn-submitted .cta-icon { background: rgba(255,255,255,0.14); }
+
+    .btn-none {
+      background: var(--amber-bg);
+      border: 1.5px solid var(--amber-border);
+      color: var(--amber-text);
+    }
+    .btn-none .cta-icon { background: rgba(212,130,10,0.10); }
+
+    /* ── Overlay ── */
+    .overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(20,40,65,0.45);
+      backdrop-filter: blur(2px);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+    }
+    .overlay.show { display: flex; }
+    .spinner {
+      width: 44px; height: 44px;
+      border: 3px solid rgba(255,255,255,0.22);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Success screen ── */
+    .success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 52px 24px 44px;
+      text-align: center;
+      gap: 10px;
+    }
+    .success.show { display: flex; }
+    .success-icon {
+      width: 68px; height: 68px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      animation: pop 0.45s cubic-bezier(0.175,0.885,0.32,1.275);
+      margin-bottom: 6px;
+    }
+    @keyframes pop {
+      0%   { transform: scale(0.3); opacity: 0; }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+    .success h2 { font-size: 20px; font-weight: 700; color: var(--gray-800); }
+    .success p  { font-size: 14px; color: var(--gray-600); line-height: 1.8; }
+
+    .success-logo-badge {
+      margin-top: 28px;
+      background: var(--navy-subtle);
+      border-radius: 8px;
+      padding: 5px 11px;
+    }
+    .success-logo-badge img {
+      height: 22px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+      opacity: 0.45;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card" id="mainCard">
+
+  <!-- ── Header ── -->
+  <div class="card-header">
+    <div class="logo-badge">
+      <img id="logoImg"
+           src="https://i.ibb.co/9DnxkWm/Chat-GPT-Image-2026-6-8-07-38-27.png"
+           alt="로고"
+           onerror="this.parentElement.style.display='none'">
+    </div>
+    <p class="header-greeting">안녕하세요, <strong id="clientName">고객</strong>님.<br>세무자료 제출 안내드립니다.</p>
+    <div class="tax-chip">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/>
+      </svg>
+      <span id="taxChipText">세무신고 자료 요청</span>
+    </div>
+  </div>
+
+  <!-- ── Deadline bar ── -->
+  <div class="deadline-bar" id="deadlineBar">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d4820a" stroke-width="2.2">
+      <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+    </svg>
+    <span id="deadlineText"></span>
+  </div>
+
+  <!-- ── Main content ── -->
+  <div id="mainContent">
+
+    <!-- Guide section -->
+    <div class="guide-section">
+      <div class="guide-header">
+        <span class="guide-header-text">진행 안내</span>
+        <div class="guide-header-line"></div>
+      </div>
+      <ul class="guide-list">
+        <li class="guide-item">
+          <span class="guide-circle">1</span>
+          <span class="guide-text"><strong>필요 자료 확인</strong>을 눌러 안내 내용을 확인하세요</span>
+        </li>
+        <li class="guide-item">
+          <span class="guide-circle">2</span>
+          <span class="guide-text"><strong>구글 드라이브</strong>에 해당 자료를 업로드하세요</span>
+        </li>
+        <li class="guide-item">
+          <span class="guide-circle">3</span>
+          <span class="guide-text">업로드 완료 후 <strong>자료 제출 완료</strong> 버튼을 눌러주세요</span>
+        </li>
+        <li class="guide-item">
+          <span class="guide-circle">4</span>
+          <span class="guide-text">제출할 자료가 없다면 <strong>제출할 자료 없음</strong> 버튼을 눌러주세요</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Link buttons -->
+    <div class="links">
+      <a class="link-btn" id="notionBtn" href="#" target="_blank" rel="noopener">
+        <div class="btn-icon">
+          <!-- Document/Notion icon -->
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1b3a5c" stroke-width="2">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </div>
+        <div class="btn-text">
+          <span class="t1">필요 자료 확인</span>
+          <span class="t2">노션 안내사항 확인하기</span>
+        </div>
+        <span class="arr">›</span>
+      </a>
+      <a class="link-btn" id="driveBtn" href="#" target="_blank" rel="noopener">
+        <div class="btn-icon">
+          <!-- Cloud upload / Drive icon -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b3a5c" stroke-width="2">
+            <polyline points="16 16 12 12 8 16"/>
+            <line x1="12" y1="12" x2="12" y2="21"/>
+            <path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/>
+          </svg>
+        </div>
+        <div class="btn-text">
+          <span class="t1">구글 드라이브 업로드</span>
+          <span class="t2">전용 폴더에 파일 첨부</span>
+        </div>
+        <span class="arr">›</span>
+      </a>
+    </div>
+
+    <!-- Action notice -->
+    <div class="action-notice">
+      <span class="notice-dot"></span>
+      아래에서 해당하는 버튼을 <strong style="margin-left:2px;">꼭 눌러주세요!</strong>
+    </div>
+
+    <!-- Error box -->
+    <div class="error-box" id="errorBox">전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.</div>
+
+    <!-- CTA buttons -->
+    <div class="cta-grid">
+      <button class="cta-btn btn-submitted" id="btnSubmitted" onclick="handleAction('submitted')">
+        <div class="cta-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+        </div>
+        자료 제출 완료
+      </button>
+      <button class="cta-btn btn-none" id="btnNone" onclick="handleAction('none')">
+        <div class="cta-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d4820a" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
+          </svg>
+        </div>
+        제출할 자료 없음
+      </button>
+    </div>
+
+  </div><!-- /mainContent -->
+
+  <!-- ── Success screen ── -->
+  <div class="success" id="successScreen">
+    <div class="success-icon" id="successIcon"></div>
+    <h2 id="successTitle"></h2>
+    <p id="successDesc"></p>
+    <div class="success-logo-badge">
+      <img src="https://i.ibb.co/9DnxkWm/Chat-GPT-Image-2026-6-8-07-38-27.png"
+           alt=""
+           onerror="this.parentElement.style.display='none'">
+    </div>
+  </div>
+
+</div><!-- /card -->
+
+<!-- Loading overlay -->
+<div class="overlay" id="overlay"><div class="spinner"></div></div>
+
+<script>
+  /* ── URL params ─────────────────────────────────────────── */
+  const p = new URLSearchParams(window.location.search);
+  const clientId   = p.get('cid')      || '';
+  const clientName = p.get('name')     || '고객';
+  const month      = p.get('month')    || '';
+  const taxType    = p.get('type')     || '';
+  const deadline   = p.get('deadline') || '';
+  const notionLink = p.get('notion')   || '#';
+  const driveLink  = p.get('drive')    || '#';
+
+  /* Make webhook URL */
+  const HOOK = 'https://hook.us2.make.com/7qmgrr2vfzvadz4ecow123ncmo02rb1t';
+
+  /* ── Populate fields ─────────────────────────────────────── */
+  document.getElementById('clientName').textContent = clientName;
+
+  const parts = [];
+  if (month)   parts.push(month);
+  if (taxType) parts.push(taxType);
+  document.getElementById('taxChipText').textContent =
+    (parts.length ? parts.join(' · ') : '세무신고') + ' 자료 요청';
+
+  if (deadline) {
+    const bar = document.getElementById('deadlineBar');
+    bar.classList.add('show');
+    document.getElementById('deadlineText').textContent =
+      deadline + '까지 업로드 부탁드립니다.';
+  }
+
+  document.getElementById('notionBtn').href = notionLink;
+  document.getElementById('driveBtn').href  = driveLink;
+
+  /* ── Webhook + success ───────────────────────────────────── */
+  async function handleAction(status) {
+    document.getElementById('errorBox').classList.remove('show');
+    document.getElementById('btnSubmitted').disabled = true;
+    document.getElementById('btnNone').disabled = true;
+    document.getElementById('overlay').classList.add('show');
+
+    const url =
+      `${HOOK}?cid=${encodeURIComponent(clientId)}`
+      + `&month=${encodeURIComponent(month)}`
+      + `&type=${encodeURIComponent(taxType)}`
+      + `&status=${status}`;
+
+    try {
+      await fetch(url, { method: 'GET', mode: 'no-cors' });
+      showSuccess(status);
+    } catch (e) {
+      document.getElementById('overlay').classList.remove('show');
+      document.getElementById('btnSubmitted').disabled = false;
+      document.getElementById('btnNone').disabled = false;
+      document.getElementById('errorBox').classList.add('show');
+    }
+  }
+
+  function showSuccess(status) {
+    document.getElementById('overlay').classList.remove('show');
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('deadlineBar').classList.remove('show');
+
+    const icon  = document.getElementById('successIcon');
+    const title = document.getElementById('successTitle');
+    const desc  = document.getElementById('successDesc');
+
+    if (status === 'submitted') {
+      icon.style.background = '#edf8f2';
+      icon.innerHTML =
+        '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1a7a4a" stroke-width="2.5">'
+        + '<path d="M20 6L9 17l-5-5"/></svg>';
+      title.textContent = '제출 완료!';
+      desc.innerHTML =
+        '담당 세무사에게 자동으로 전달되었습니다.<br>'
+        + '신고 준비가 완료되면 별도로 연락드리겠습니다.<br>감사합니다.';
+    } else {
+      icon.style.background = '#fff8ec';
+      icon.innerHTML =
+        '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#d4820a" stroke-width="2.5">'
+        + '<circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>';
+      title.textContent = '확인했습니다.';
+      desc.innerHTML =
+        '제출 자료 없음으로 담당 세무사에게<br>전달되었습니다. 감사합니다.';
+    }
+
+    document.getElementById('successScreen').classList.add('show');
+  }
+</script>
+</body>
+</html>
