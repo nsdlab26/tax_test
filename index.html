@@ -537,14 +537,27 @@
   const month      = p.get('month')    || '';
   const taxType    = p.get('type')     || '';
   const deadline   = p.get('deadline') || '';
-  const notionLink = p.get('notion')   || '#';
   const driveId    = p.get('drive')    || '#';
+  const notionId   = p.get('notion')   || ''; // 👈 Make가 보낼 노션 페이지 고유 ID
 
-  // 💡 구글 드라이브 폴더 ID 버튼 조합 로직 유지
-  if (driveId && driveId !== '#') {
-    document.getElementById('driveBtn').href = `https://drive.google.com/drive/folders/${driveId}`;
-  } else {
-    document.getElementById('driveBtn').href = '#';
+  // 💡 노션 도메인 고정 + 주소창에서 읽어온 page id 조합
+  const notionBtnElement = document.getElementById('notionBtn');
+  if (notionBtnElement) {
+    if (notionId) {
+      notionBtnElement.href = `https://nsdlab26.notion.site/${notionId}`;
+    } else {
+      notionBtnElement.href = '#';
+    }
+  }
+
+  // 💡 구글 드라이브 폴더 ID 버튼 조합 로직
+  const driveBtnElement = document.getElementById('driveBtn');
+  if (driveBtnElement) {
+    if (driveId && driveId !== '#') {
+      driveBtnElement.href = `https://drive.google.com/drive/folders/${driveId}`;
+    } else {
+      driveBtnElement.href = '#';
+    }
   }
 
   /* Make webhook URL */
@@ -564,21 +577,21 @@
   // 영문 코드가 매핑 객체에 있으면 한글로 바꾸고, 없으면 원래 넘어온 값을 씁니다.
   const taxTypeText = taxTypeMap[taxType] || taxType;
   
-const parts = [];
+  const parts = [];
   if (month)       parts.push(month);
   if (taxTypeText) parts.push(taxTypeText);
+  
+  // 상단 알림 칩에 "2026-06 · 원천세 자료 요청" 형태로 출력
   document.getElementById('taxChipText').textContent =
-    (parts.length ? parts.join(' · ') : '세무신고')
+    (parts.length ? parts.join(' · ') : '세무신고') + ' 자료 요청';
 
   if (deadline) {
     const bar = document.getElementById('deadlineBar');
-    bar.classList.add('show');
-    document.getElementById('deadlineText').textContent =
-      deadline + '까지 업로드 부탁드립니다.';
+    if (bar) {
+      bar.classList.add('show');
+      document.getElementById('deadlineText').textContent = deadline + '까지 업로드 부탁드립니다.';
+    }
   }
-
-  document.getElementById('notionBtn').href = notionLink;
-  document.getElementById('driveBtn').href  = driveLink;
 
   /* ── Webhook + success ───────────────────────────────────── */
   async function handleAction(status) {
