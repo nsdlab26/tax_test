@@ -400,7 +400,7 @@
            alt="로고"
            onerror="this.parentElement.style.display='none'">
     </div>
-    <p class="header-greeting">안녕하세요, <strong id="clientName">고객</strong>님.<br>세무자료 제출 안내드립니다.</p>
+    <p class="header-greeting">안녕하세요, <strong id="clientName">고객</strong>님.<br>신고 자료 제출 안내드립니다.</p>
     <div class="tax-chip">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/>
@@ -530,7 +530,7 @@
 <div class="overlay" id="overlay"><div class="spinner"></div></div>
 
 <script>
-  /* ── URL params ─────────────────────────────────────────── */
+/* ── URL params ─────────────────────────────────────────── */
   const p = new URLSearchParams(window.location.search);
   const clientId   = p.get('cid')      || '';
   const clientName = decodeURIComponent(p.get('name') || '고객');
@@ -538,13 +538,14 @@
   const taxType    = p.get('type')     || '';
   const deadline   = p.get('deadline') || '';
   const notionLink = p.get('notion')   || '#';
-  const driveId  = p.get('drive')    || '#';
+  const driveId    = p.get('drive')    || '#';
 
-  if (driveId) {
-  document.getElementById('driveBtn').href = `https://drive.google.com/drive/folders/${driveId}`;
-} else {
-  document.getElementById('driveBtn').href = '#';
-}
+  // 💡 구글 드라이브 폴더 ID 버튼 조합 로직 유지
+  if (driveId && driveId !== '#') {
+    document.getElementById('driveBtn').href = `https://drive.google.com/drive/folders/${driveId}`;
+  } else {
+    document.getElementById('driveBtn').href = '#';
+  }
 
   /* Make webhook URL */
   const HOOK = 'https://hook.us2.make.com/7qmgrr2vfzvadz4ecow123ncmo02rb1t';
@@ -552,11 +553,22 @@
   /* ── Populate fields ─────────────────────────────────────── */
   document.getElementById('clientName').textContent = clientName;
 
-  const parts = [];
-  if (month)   parts.push(month);
-  if (taxType) parts.push(taxType);
+  /* 💡 Make에서 넘어온 영문 코드를 한글로 변환하는 매핑 객체 */
+  const taxTypeMap = {
+    'won': '원천세',
+    'bup': '법인세',
+    'jong': '종합소득세',
+    'buga': '부가세'
+  };
+
+  // 영문 코드가 매핑 객체에 있으면 한글로 바꾸고, 없으면 원래 넘어온 값을 씁니다.
+  const taxTypeText = taxTypeMap[taxType] || taxType;
+  
+const parts = [];
+  if (month)       parts.push(month);
+  if (taxTypeText) parts.push(taxTypeText);
   document.getElementById('taxChipText').textContent =
-    (parts.length ? parts.join(' · ') : '세무신고') + ' 자료 요청';
+    (parts.length ? parts.join(' · ') : '세무신고')
 
   if (deadline) {
     const bar = document.getElementById('deadlineBar');
