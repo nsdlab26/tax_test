@@ -533,7 +533,7 @@
   /* ── URL params ─────────────────────────────────────────── */
   const p = new URLSearchParams(window.location.search);
   const clientId   = p.get('cid')      || '';
-  const clientName = p.get('name')     || '고객';
+  const clientName = decodeURIComponent(p.get('name') || '고객');
   const month      = p.get('month')    || '';
   const taxType    = p.get('type')     || '';
   const deadline   = p.get('deadline') || '';
