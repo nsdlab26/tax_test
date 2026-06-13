@@ -1,529 +1,225 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>세무자료 제출 안내</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --navy:        #1b3a5c;
-      --navy-mid:    #234d78;
-      --navy-subtle: #eef3f8;
-      --navy-border: #c4d6e8;
-      --amber:       #d4820a;
-      --amber-bg:    #fff8ec;
-      --amber-border:#e8a020;
-      --amber-text:  #5f3605;
-      --green:       #1a7a4a;
-      --green-bg:    #edf8f2;
-      --gray-100:    #f4f6f9;
-      --gray-200:    #e8e8e4;
-      --gray-400:    #a4a09a;
-      --gray-600:    #6b6864;
-      --gray-800:    #2e2c29;
-      --white:       #ffffff;
-      --radius:      12px;
-      --radius-sm:   8px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>세무자료 제출 안내</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --color-background-primary:#ffffff;
+  --color-background-secondary:#f4f6f9;
+  --color-background-tertiary:#eef2f7;
+  --color-background-danger:#fdf0f0;
+  --color-border-primary:#e2e6ec;
+  --color-border-secondary:#dde3ea;
+  --color-border-tertiary:#e8ecf1;
+  --color-text-primary:#2e2c29;
+  --color-text-secondary:#6b6864;
+  --color-text-tertiary:#a4a09a;
+  --color-text-danger:#c0392b;
+  --border-radius-xl:20px;
+  --border-radius-lg:12px;
+  --border-radius-md:10px;
+}
+body{
+  font-family:'Noto Sans KR',-apple-system,sans-serif;
+  background:linear-gradient(160deg,#dce7f2 0%,#eef2f7 55%,#f0ede8 100%);
+  display:flex;align-items:center;justify-content:center;min-height:100vh;padding:28px 16px 60px;
+}
+.card{
+  background:var(--color-background-primary);
+  border:0.5px solid var(--color-border-tertiary);
+  border-radius:var(--border-radius-xl);
+  width:100%;max-width:420px;overflow:hidden;
+  box-shadow:0 1px 2px rgba(27,58,92,0.06),0 4px 16px rgba(27,58,92,0.10),0 12px 40px rgba(27,58,92,0.08);
+}
 
-    body {
-      font-family: 'Noto Sans KR', -apple-system, sans-serif;
-      background: linear-gradient(160deg, #dce7f2 0%, #eef2f7 55%, #f0ede8 100%);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 28px 16px 60px;
-      color: var(--gray-800);
-    }
+/* ── Header ── */
+.hd{
+  background:linear-gradient(135deg,#162f4a 0%,#1b3a5c 50%,#1e4570 100%);
+  padding:22px 20px 20px;position:relative;overflow:hidden;
+}
+.hd::after{
+  content:'';position:absolute;top:-28px;right:-28px;width:110px;height:110px;
+  border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none;
+}
+.logo-pill{
+  display:inline-flex;align-items:center;background:rgba(255,255,255,0.97);
+  border-radius:8px;padding:5px 11px;width:fit-content;
+  box-shadow:0 1px 6px rgba(0,0,0,0.12);margin-bottom:14px;
+}
+.logo-pill img{height:24px;width:auto;display:block;object-fit:contain}
+.logo-pill .logo-fallback{font-size:10px;font-weight:700;color:#1b3a5c;letter-spacing:0.12em;padding:2px 4px}
+.hd-name{font-size:18px;color:#fff;font-weight:700;letter-spacing:-0.01em}
+.hd-sub{font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px;line-height:1.6}
+.hd-sub strong{color:#fff;font-weight:700}
+.hd-chips{display:flex;gap:6px;margin-top:14px}
+.chip{display:inline-flex;align-items:center;gap:4px;border-radius:20px;padding:4px 11px;font-size:11px;font-weight:600}
+.chip-month{background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.55)}
+.chip-type{background:rgba(255,255,255,0.13);border:0.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.88)}
 
-    /* ── Card ── */
-    .card {
-      background: var(--white);
-      border-radius: 20px;
-      overflow: hidden;
-      width: 100%;
-      max-width: 420px;
-      box-shadow:
-        0 1px 2px rgba(27,58,92,0.06),
-        0 4px 16px rgba(27,58,92,0.10),
-        0 12px 40px rgba(27,58,92,0.08);
-    }
+.body{padding:18px}
 
-    /* ── Header ── */
-    .card-header {
-      background: var(--navy);
-      background: linear-gradient(135deg, #162f4a 0%, var(--navy) 50%, #1e4570 100%);
-      padding: 22px 20px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 11px;
-      position: relative;
-      overflow: hidden;
-    }
-    /* Subtle decorative circle in corner */
-    .card-header::after {
-      content: '';
-      position: absolute;
-      top: -28px; right: -28px;
-      width: 110px; height: 110px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.04);
-      pointer-events: none;
-    }
+/* ── Dates card ── */
+.dates-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:16px}
+.date-row{padding:14px 16px}
+.date-row--deadline{background:var(--color-background-danger)}
+.date-row--period{border-bottom:0.5px solid var(--color-border-tertiary)}
 
-    /* Logo: clean white badge — no more ugly square */
-    .logo-badge {
-      display: inline-flex;
-      align-items: center;
-      background: rgba(255,255,255,0.97);
-      border-radius: 8px;
-      padding: 5px 11px;
-      width: fit-content;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.12);
-    }
-    .logo-badge img {
-      height: 26px;
-      width: auto;
-      display: block;
-      object-fit: contain;
-    }
+.dr-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.dr-label{font-size:10px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-text-tertiary)}
+.dr-label--danger{color:var(--color-text-danger)}
+.dr-badge{background:#e03535;border-radius:3px;padding:2px 7px;font-size:11px;font-weight:700;color:#fff}
 
-    .header-greeting {
-      font-size: 14px;
-      font-weight: 400;
-      color: rgba(255,255,255,0.72);
-      line-height: 1.65;
-    }
-    .header-greeting strong {
-      color: #fff;
-      font-weight: 700;
-    }
+.dr-date{font-size:14px;font-weight:700;color:var(--color-text-primary);letter-spacing:-0.01em}
+.dr-date--danger{font-size:20px;color:var(--color-text-danger);letter-spacing:-0.02em}
+.dr-desc{font-size:12px;color:var(--color-text-secondary);margin-top:4px}
+.dr-desc--danger{color:var(--color-text-danger);opacity:0.7}
 
-    .tax-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(255,255,255,0.10);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 20px;
-      padding: 4px 11px;
-      font-size: 12px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.88);
-      width: fit-content;
-    }
+/* ── Notice ── */
+.notice{display:flex;align-items:flex-start;gap:7px;font-size:12px;color:var(--color-text-secondary);line-height:1.55;margin-bottom:16px;padding:0 1px}
 
-    /* ── Deadline bar ── */
-    .deadline-bar {
-      background: var(--amber-bg);
-      border-bottom: 1.5px solid var(--amber-border);
-      padding: 10px 18px;
-      display: none;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--amber-text);
-    }
-    .deadline-bar.show { display: flex; }
-    .deadline-bar svg { flex-shrink: 0; }
+/* ── Link buttons ── */
+.links{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+.link-btn{display:flex;align-items:center;gap:12px;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:11px 14px;text-decoration:none;cursor:pointer;transition:background 0.12s,border-color 0.12s,transform 0.1s;-webkit-tap-highlight-color:transparent}
+.link-btn:hover{background:var(--color-background-secondary)}
+.link-btn:active{transform:scale(0.99)}
+.link-icon{width:34px;height:34px;border-radius:8px;background:rgba(27,58,92,0.07);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#1b3a5c;font-size:17px}
+.link-text{flex:1}
+.link-t1{font-size:13px;font-weight:700;color:var(--color-text-primary);display:block}
+.link-t2{font-size:11px;color:var(--color-text-tertiary);display:block;margin-top:1px}
+.link-arr{font-size:18px;color:var(--color-text-tertiary)}
 
-    /* ── Guide section ── */
-    .guide-section {
-      padding: 18px 20px 0;
-    }
-    .guide-header {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 13px;
-    }
-    .guide-header-text {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--gray-400);
-      letter-spacing: 0.04em;
-    }
-    .guide-header-line {
-      flex: 1;
-      height: 1px;
-      background: var(--gray-200);
-    }
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:14px 0}
 
-    .guide-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-    }
-    .guide-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-    .guide-circle {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--navy);
-      color: white;
-      font-size: 11px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .guide-text {
-      font-size: 13px;
-      color: var(--gray-600);
-      line-height: 1.65;
-      padding-top: 2px;
-    }
-    .guide-text strong {
-      color: var(--gray-800);
-      font-weight: 700;
-    }
+/* ── Error ── */
+.error-box{display:none;margin-bottom:14px;background:#fdf0f0;border:1px solid #f0a0a0;border-radius:var(--border-radius-md);padding:10px 13px;font-size:13px;color:#b83232;line-height:1.5}
+.error-box.show{display:block}
 
-    /* ── Link buttons ── */
-    .links {
-      padding: 16px 20px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .link-btn {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--white);
-      border: 1.5px solid var(--navy-border);
-      border-radius: var(--radius);
-      padding: 12px 14px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.14s, border-color 0.14s, transform 0.1s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .link-btn:hover  { background: var(--navy-subtle); border-color: #a8c4dc; }
-    .link-btn:active { background: #dce9f3; border-color: #8fb8d4; transform: scale(0.99); }
+/* ── CTA buttons ── */
+.cta-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cta-btn{border-radius:var(--border-radius-md);padding:14px 10px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;border:none;display:flex;flex-direction:column;align-items:center;gap:7px;transition:opacity 0.15s,transform 0.1s;line-height:1.3;text-align:center;-webkit-tap-highlight-color:transparent}
+.cta-btn:active{transform:scale(0.97);opacity:0.88}
+.cta-btn:disabled{opacity:0.45;cursor:not-allowed;transform:none}
+.btn-submit{background:#1b3a5c;color:#fff}
+.btn-none{background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary)}
+.cta-ico{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px}
+.cta-ico-s{background:rgba(255,255,255,0.15);color:#fff}
+.cta-ico-n{background:rgba(0,0,0,0.06);color:var(--color-text-tertiary)}
 
-    .link-btn .btn-icon {
-      width: 38px; height: 38px;
-      border-radius: var(--radius-sm);
-      background: var(--navy-subtle);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .link-btn .btn-text { flex: 1; }
-    .link-btn .btn-text .t1 {
-      font-size: 13.5px;
-      font-weight: 700;
-      color: var(--navy);
-      display: block;
-    }
-    .link-btn .btn-text .t2 {
-      font-size: 11.5px;
-      color: var(--gray-400);
-      display: block;
-      margin-top: 1px;
-    }
-    .link-btn .arr {
-      color: var(--navy-border);
-      font-size: 22px;
-      font-weight: 300;
-      line-height: 1;
-    }
+/* ── Overlay ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(20,40,65,0.45);backdrop-filter:blur(2px);z-index:999;align-items:center;justify-content:center}
+.overlay.show{display:flex}
+.spinner{width:44px;height:44px;border:3px solid rgba(255,255,255,0.22);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-    /* ── Action notice (replaces divider) ── */
-    .action-notice {
-      margin: 16px 20px 0;
-      background: var(--navy-subtle);
-      border: 1.5px solid var(--navy-border);
-      border-left: 3px solid var(--navy);
-      border-radius: var(--radius-sm);
-      padding: 11px 14px;
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      font-size: 13px;
-      color: var(--navy);
-      font-weight: 600;
-      line-height: 1.5;
-    }
-    .notice-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--navy);
-      flex-shrink: 0;
-      animation: notice-pulse 2s ease-in-out infinite;
-    }
-    @keyframes notice-pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.4; transform: scale(0.75); }
-    }
-
-    /* ── Error ── */
-    .error-box {
-      display: none;
-      margin: 12px 20px 0;
-      background: #fdf0f0;
-      border: 1px solid #f0a0a0;
-      border-radius: var(--radius-sm);
-      padding: 10px 13px;
-      font-size: 13px;
-      color: #b83232;
-      line-height: 1.5;
-    }
-    .error-box.show { display: block; }
-
-    /* ── CTA buttons ── */
-    .cta-grid {
-      padding: 14px 20px 22px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    .cta-btn {
-      border-radius: var(--radius);
-      padding: 16px 10px;
-      font-size: 13.5px;
-      font-weight: 700;
-      font-family: inherit;
-      cursor: pointer;
-      border: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 7px;
-      transition: opacity 0.14s, transform 0.1s, box-shadow 0.14s;
-      -webkit-tap-highlight-color: transparent;
-      line-height: 1.4;
-      text-align: center;
-    }
-    .cta-btn:active   { transform: scale(0.97); opacity: 0.88; }
-    .cta-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none !important; }
-
-    .cta-btn .cta-icon {
-      width: 30px; height: 30px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-    }
-
-    .btn-submitted {
-      background: var(--navy);
-      color: #fff;
-      box-shadow: 0 3px 12px rgba(27,58,92,0.28);
-    }
-    .btn-submitted:hover:not(:disabled) { box-shadow: 0 4px 18px rgba(27,58,92,0.38); }
-    .btn-submitted .cta-icon { background: rgba(255,255,255,0.14); }
-
-    .btn-none {
-      background: var(--amber-bg);
-      border: 1.5px solid var(--amber-border);
-      color: var(--amber-text);
-    }
-    .btn-none .cta-icon { background: rgba(212,130,10,0.10); }
-
-    /* ── Overlay ── */
-    .overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(20,40,65,0.45);
-      backdrop-filter: blur(2px);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-    }
-    .overlay.show { display: flex; }
-    .spinner {
-      width: 44px; height: 44px;
-      border: 3px solid rgba(255,255,255,0.22);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── Success screen ── */
-    .success {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      padding: 52px 24px 44px;
-      text-align: center;
-      gap: 10px;
-    }
-    .success.show { display: flex; }
-    .success-icon {
-      width: 68px; height: 68px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      animation: pop 0.45s cubic-bezier(0.175,0.885,0.32,1.275);
-      margin-bottom: 6px;
-    }
-    @keyframes pop {
-      0%   { transform: scale(0.3); opacity: 0; }
-      100% { transform: scale(1);   opacity: 1; }
-    }
-    .success h2 { font-size: 20px; font-weight: 700; color: var(--gray-800); }
-    .success p  { font-size: 14px; color: var(--gray-600); line-height: 1.8; }
-
-    .success-logo-badge {
-      margin-top: 28px;
-      background: var(--navy-subtle);
-      border-radius: 8px;
-      padding: 5px 11px;
-    }
-    .success-logo-badge img {
-      height: 22px;
-      width: auto;
-      display: block;
-      object-fit: contain;
-      opacity: 0.45;
-    }
-  </style>
+/* ── Success screen ── */
+.success{display:none;flex-direction:column;align-items:center;padding:52px 24px 44px;text-align:center;gap:10px}
+.success.show{display:flex}
+.success-icon{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;animation:pop 0.45s cubic-bezier(0.175,0.885,0.32,1.275);margin-bottom:6px}
+@keyframes pop{0%{transform:scale(0.3);opacity:0}100%{transform:scale(1);opacity:1}}
+.success h2{font-size:20px;font-weight:700;color:var(--color-text-primary)}
+.success p{font-size:14px;color:var(--color-text-secondary);line-height:1.8}
+.success-logo-badge{margin-top:28px;background:var(--color-background-tertiary);border-radius:8px;padding:5px 11px}
+.success-logo-badge img{height:22px;width:auto;display:block;object-fit:contain;opacity:0.45}
+</style>
 </head>
 <body>
 
 <div class="card" id="mainCard">
 
-  <!-- ── Header ── -->
-  <div class="card-header">
-    <div class="logo-badge">
-      <img id="logoImg"
-           src="https://i.ibb.co/9DnxkWm/Chat-GPT-Image-2026-6-8-07-38-27.png"
-           alt="로고"
+  <div class="hd">
+    <div class="logo-pill">
+      <img id="logoImg" src="https://i.ibb.co/9DnxkWm/Chat-GPT-Image-2026-6-8-07-38-27.png" alt="로고"
            onerror="this.parentElement.style.display='none'">
     </div>
-    <p class="header-greeting">안녕하세요, <strong id="clientName">고객</strong>님.<br>신고 자료 제출 안내드립니다.</p>
-    <div class="tax-chip">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/>
-      </svg>
-      <span id="taxChipText">세무신고 자료 요청</span>
+    <div class="hd-name"><span id="clientName">고객</span>님</div>
+    <div class="hd-sub">세무신고 자료 제출 안내입니다.</div>
+    <div class="hd-chips">
+      <span class="chip chip-month"><i class="ti ti-calendar" aria-hidden="true"></i><span id="monthChip">2026년 6월</span></span>
+      <span class="chip chip-type"><i class="ti ti-file-invoice" aria-hidden="true"></i><span id="typeChip">원천세</span></span>
     </div>
   </div>
 
-  <!-- ── Deadline bar ── -->
-  <div class="deadline-bar" id="deadlineBar">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d4820a" stroke-width="2.2">
-      <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
-    </svg>
-    <span id="deadlineText"></span>
-  </div>
+  <div class="body">
 
-  <!-- ── Main content ── -->
-  <div id="mainContent">
+    <!-- ── Main content ── -->
+    <div id="mainContent">
 
-    <!-- Guide section -->
-    <div class="guide-section">
-      <div class="guide-header">
-        <span class="guide-header-text">진행 안내</span>
-        <div class="guide-header-line"></div>
+      <div class="dates-card">
+        <div class="date-row date-row--period">
+          <div class="dr-header">
+            <span class="dr-label">자료 제출 기간</span>
+          </div>
+          <div class="dr-date" id="periodDate">-</div>
+          <div class="dr-desc">해당 기간의 자료를 제출해 주세요</div>
+        </div>
+        <div class="date-row date-row--deadline">
+          <div class="dr-header">
+            <span class="dr-label dr-label--danger">제출 마감일</span>
+            <span class="dr-badge" id="ddayBadge" style="display:none"></span>
+          </div>
+          <div class="dr-date dr-date--danger" id="deadlineDate">-</div>
+          <div class="dr-desc dr-desc--danger">이 날짜까지 업로드해 주세요</div>
+        </div>
       </div>
-      <ul class="guide-list">
-        <li class="guide-item">
-          <span class="guide-circle">1</span>
-          <span class="guide-text"><strong>필요 자료 확인</strong>을 눌러 안내 내용을 확인하세요</span>
-        </li>
-        <li class="guide-item">
-          <span class="guide-circle">2</span>
-          <span class="guide-text"><strong>구글 드라이브</strong>에 해당 자료를 업로드하세요</span>
-        </li>
-        <li class="guide-item">
-          <span class="guide-circle">3</span>
-          <span class="guide-text">업로드 완료 후 <strong>자료 제출 완료</strong> 버튼을 눌러주세요</span>
-        </li>
-        <li class="guide-item">
-          <span class="guide-circle">4</span>
-          <span class="guide-text">제출할 자료가 없다면 <strong>제출할 자료 없음</strong> 버튼을 눌러주세요</span>
-        </li>
-      </ul>
+
+      <div class="notice">
+        <i class="ti ti-info-circle" style="color:#1b3a5c;font-size:15px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>
+        자료 확인 후 드라이브 업로드 → 아래 버튼을 눌러 주세요
+      </div>
+
+      <div class="links">
+        <a class="link-btn" id="notionBtn" href="#" target="_blank" rel="noopener">
+          <div class="link-icon"><i class="ti ti-file-description" aria-hidden="true"></i></div>
+          <div class="link-text">
+            <span class="link-t1">필요 자료 확인</span>
+            <span class="link-t2">노션 안내사항 보기</span>
+          </div>
+          <span class="link-arr">›</span>
+        </a>
+        <a class="link-btn" id="driveBtn" href="#" target="_blank" rel="noopener">
+          <div class="link-icon"><i class="ti ti-cloud-upload" aria-hidden="true"></i></div>
+          <div class="link-text">
+            <span class="link-t1">구글 드라이브 업로드</span>
+            <span class="link-t2">전용 폴더에 파일 첨부</span>
+          </div>
+          <span class="link-arr">›</span>
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Error box -->
+      <div class="error-box" id="errorBox">전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.</div>
+
+      <div class="cta-row">
+        <button class="cta-btn btn-submit" id="btnSubmitted" onclick="handleAction('submitted')">
+          <div class="cta-ico cta-ico-s"><i class="ti ti-check" aria-hidden="true"></i></div>
+          자료 제출 완료
+        </button>
+        <button class="cta-btn btn-none" id="btnNone" onclick="handleAction('none')">
+          <div class="cta-ico cta-ico-n"><i class="ti ti-minus" aria-hidden="true"></i></div>
+          제출할 자료 없음
+        </button>
+      </div>
+
+    </div><!-- /mainContent -->
+
+    <!-- ── Success screen ── -->
+    <div class="success" id="successScreen">
+      <div class="success-icon" id="successIcon"></div>
+      <h2 id="successTitle"></h2>
+      <p id="successDesc"></p>
+      <div class="success-logo-badge">
+        <img src="https://i.ibb.co/9DnxkWm/Chat-GPT-Image-2026-6-8-07-38-27.png" alt="" onerror="this.parentElement.style.display='none'">
+      </div>
     </div>
 
-    <!-- Link buttons -->
-    <div class="links">
-      <a class="link-btn" id="notionBtn" href="#" target="_blank" rel="noopener">
-        <div class="btn-icon">
-          <!-- Document/Notion icon -->
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1b3a5c" stroke-width="2">
-            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/>
-            <line x1="16" y1="17" x2="8" y2="17"/>
-          </svg>
-        </div>
-        <div class="btn-text">
-          <span class="t1">필요 자료 확인</span>
-          <span class="t2">노션 안내사항 확인하기</span>
-        </div>
-        <span class="arr">›</span>
-      </a>
-      <a class="link-btn" id="driveBtn" href="#" target="_blank" rel="noopener">
-        <div class="btn-icon">
-          <!-- Cloud upload / Drive icon -->
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b3a5c" stroke-width="2">
-            <polyline points="16 16 12 12 8 16"/>
-            <line x1="12" y1="12" x2="12" y2="21"/>
-            <path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/>
-          </svg>
-        </div>
-        <div class="btn-text">
-          <span class="t1">구글 드라이브 업로드</span>
-          <span class="t2">전용 폴더에 파일 첨부</span>
-        </div>
-        <span class="arr">›</span>
-      </a>
-    </div>
-
-    <!-- Action notice -->
-    <div class="action-notice">
-      <span class="notice-dot"></span>
-      아래에서 해당하는 버튼을 <strong style="margin-left:2px;">꼭 눌러주세요!</strong>
-    </div>
-
-    <!-- Error box -->
-    <div class="error-box" id="errorBox">전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.</div>
-
-    <!-- CTA buttons -->
-    <div class="cta-grid">
-      <button class="cta-btn btn-submitted" id="btnSubmitted" onclick="handleAction('submitted')">
-        <div class="cta-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5">
-            <path d="M20 6L9 17l-5-5"/>
-          </svg>
-        </div>
-        자료 제출 완료
-      </button>
-      <button class="cta-btn btn-none" id="btnNone" onclick="handleAction('none')">
-        <div class="cta-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d4820a" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
-          </svg>
-        </div>
-        제출할 자료 없음
-      </button>
-    </div>
-
-  </div><!-- /mainContent -->
-
-  <!-- ── Success screen ── -->
-  <div class="success" id="successScreen">
-    <div class="success-icon" id="successIcon"></div>
-    <h2 id="successTitle"></h2>
-    <p id="successDesc"></p>
-    <div class="success-logo-badge">
-      <img src="https://i.ibb.co/9DnxkWm/Chat-GPT-Image-2026-6-8-07-38-27.png"
-           alt=""
-           onerror="this.parentElement.style.display='none'">
-    </div>
-  </div>
-
+  </div><!-- /body -->
 </div><!-- /card -->
 
 <!-- Loading overlay -->
@@ -531,122 +227,158 @@
 
 <script>
 /* ── URL params ─────────────────────────────────────────── */
-  const p = new URLSearchParams(window.location.search);
-  const clientId   = p.get('cid')      || '';
-  const clientName = decodeURIComponent(p.get('name') || '고객');
-  const month      = p.get('month')    || '';
-  const taxType    = p.get('type')     || '';
-  const deadline   = p.get('deadline') || '';
-  const driveId    = p.get('drive')    || '#';
-  const notionId   = p.get('guide')   || ''; 
+const p = new URLSearchParams(window.location.search);
+const clientId   = p.get('cid')      || '';
+const clientName = decodeURIComponent(p.get('name') || '고객');
+const month      = p.get('month')    || '';
+const taxType    = p.get('type')     || '';
+const dateStart  = p.get('dateStart') || '';
+const dateEnd    = p.get('dateEnd')   || '';
+const driveId    = p.get('drive')    || '#';
+const notionId   = p.get('guide')   || '';
 
-  // 💡 노션 도메인 고정 + 주소창에서 읽어온 page id 조합
-  const notionBtnElement = document.getElementById('notionBtn');
-  if (notionBtnElement) {
-    if (notionId) {
-      notionBtnElement.href = `https://nsdlab26.notion.site/${notionId}`;
-    } else {
-      notionBtnElement.href = '#';
-    }
+/* 노션 / 드라이브 버튼 링크 조합 */
+const notionBtnElement = document.getElementById('notionBtn');
+if (notionBtnElement) {
+  notionBtnElement.href = notionId ? `https://nsdlab26.notion.site/${notionId}` : '#';
+}
+const driveBtnElement = document.getElementById('driveBtn');
+if (driveBtnElement) {
+  driveBtnElement.href = (driveId && driveId !== '#') ? `https://drive.google.com/drive/folders/${driveId}` : '#';
+}
+
+/* Make webhook URL */
+const HOOK = 'https://hook.us2.make.com/7qmgrr2vfzvadz4ecow123ncmo02rb1t';
+
+/* ── Populate fields ─────────────────────────────────────── */
+document.getElementById('clientName').textContent = clientName;
+
+const taxTypeMap = {
+  'won': '원천세',
+  'bup': '법인세',
+  'jong': '종합소득세',
+  'buga': '부가세'
+};
+const taxTypeText = taxTypeMap[taxType] || taxType || '세무신고';
+document.getElementById('typeChip').textContent = taxTypeText;
+
+if (month) {
+  document.getElementById('monthChip').textContent = month;
+}
+
+/* ── 날짜 포맷 유틸 ──────────────────────────────────────── */
+const WEEKDAYS = ['일','월','화','수','목','금','토'];
+
+function parseDate(str) {
+  // 다양한 입력 형식(YYYY-MM-DD, YYYY.MM.DD, YYYY/MM/DD) 지원
+  if (!str) return null;
+  const cleaned = str.trim().replace(/[./]/g, '-');
+  const parts = cleaned.split('-').map(s => parseInt(s, 10));
+  if (parts.length < 3 || parts.some(isNaN)) return null;
+  const [y, m, d] = parts;
+  return new Date(y, m - 1, d);
+}
+
+function formatDotDate(date) {
+  if (!date) return '-';
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}.${m}.${d}`;
+}
+
+function formatKoreanDate(date) {
+  if (!date) return '-';
+  const y = date.getFullYear();
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+  const w = WEEKDAYS[date.getDay()];
+  return `${y}년 ${m}월 ${d}일 (${w})`;
+}
+
+/* ── 기간 / 마감일 채우기 ───────────────────────────────────── */
+const startDate = parseDate(dateStart);
+const endDate   = parseDate(dateEnd);
+
+if (startDate && endDate) {
+  document.getElementById('periodDate').textContent =
+    `${formatDotDate(startDate)} – ${formatDotDate(endDate)}`;
+} else if (startDate) {
+  document.getElementById('periodDate').textContent = formatDotDate(startDate);
+}
+
+if (endDate) {
+  document.getElementById('deadlineDate').textContent = formatKoreanDate(endDate);
+
+  // D-day 계산
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const target = new Date(endDate);
+  target.setHours(0,0,0,0);
+  const diffDays = Math.round((target - today) / (1000 * 60 * 60 * 24));
+
+  const badge = document.getElementById('ddayBadge');
+  if (diffDays > 0) {
+    badge.textContent = `D-${diffDays}`;
+    badge.style.display = 'inline-flex';
+  } else if (diffDays === 0) {
+    badge.textContent = 'D-DAY';
+    badge.style.display = 'inline-flex';
+  } else {
+    badge.textContent = `마감 (D+${Math.abs(diffDays)})`;
+    badge.style.display = 'inline-flex';
   }
+}
 
-  // 💡 구글 드라이브 폴더 ID 버튼 조합 로직
-  const driveBtnElement = document.getElementById('driveBtn');
-  if (driveBtnElement) {
-    if (driveId && driveId !== '#') {
-      driveBtnElement.href = `https://drive.google.com/drive/folders/${driveId}`;
-    } else {
-      driveBtnElement.href = '#';
-    }
-  }
+/* ── Webhook + success ───────────────────────────────────── */
+async function handleAction(status) {
+  document.getElementById('errorBox').classList.remove('show');
+  document.getElementById('btnSubmitted').disabled = true;
+  document.getElementById('btnNone').disabled = true;
+  document.getElementById('overlay').classList.add('show');
 
-  /* Make webhook URL */
-  const HOOK = 'https://hook.us2.make.com/7qmgrr2vfzvadz4ecow123ncmo02rb1t';
+  const url =
+    `${HOOK}?cid=${encodeURIComponent(clientId)}`
+    + `&month=${encodeURIComponent(month)}`
+    + `&type=${encodeURIComponent(taxType)}`
+    + `&status=${status}`;
 
-  /* ── Populate fields ─────────────────────────────────────── */
-  document.getElementById('clientName').textContent = clientName;
-
-  /* 💡 Make에서 넘어온 영문 코드를 한글로 변환하는 매핑 객체 */
-  const taxTypeMap = {
-    'won': '원천세',
-    'bup': '법인세',
-    'jong': '종합소득세',
-    'buga': '부가세'
-  };
-
-  // 영문 코드가 매핑 객체에 있으면 한글로 바꾸고, 없으면 원래 넘어온 값을 씁니다.
-  const taxTypeText = taxTypeMap[taxType] || taxType;
-  
-  const parts = [];
-  if (month)       parts.push(month);
-  if (taxTypeText) parts.push(taxTypeText);
-  
-  // 상단 알림 칩에 "2026-06 · 원천세 자료 요청" 형태로 출력
-  document.getElementById('taxChipText').textContent =
-    (parts.length ? parts.join(' · ') : '세무신고');
-
-  if (deadline) {
-    const bar = document.getElementById('deadlineBar');
-    if (bar) {
-      bar.classList.add('show');
-      document.getElementById('deadlineText').textContent = deadline + '까지 업로드 부탁드립니다.';
-    }
-  }
-
-  /* ── Webhook + success ───────────────────────────────────── */
-  async function handleAction(status) {
-    document.getElementById('errorBox').classList.remove('show');
-    document.getElementById('btnSubmitted').disabled = true;
-    document.getElementById('btnNone').disabled = true;
-    document.getElementById('overlay').classList.add('show');
-
-    const url =
-      `${HOOK}?cid=${encodeURIComponent(clientId)}`
-      + `&month=${encodeURIComponent(month)}`
-      + `&type=${encodeURIComponent(taxType)}`
-      + `&status=${status}`;
-
-    try {
-      await fetch(url, { method: 'GET', mode: 'no-cors' });
-      showSuccess(status);
-    } catch (e) {
-      document.getElementById('overlay').classList.remove('show');
-      document.getElementById('btnSubmitted').disabled = false;
-      document.getElementById('btnNone').disabled = false;
-      document.getElementById('errorBox').classList.add('show');
-    }
-  }
-
-  function showSuccess(status) {
+  try {
+    await fetch(url, { method: 'GET', mode: 'no-cors' });
+    showSuccess(status);
+  } catch (e) {
     document.getElementById('overlay').classList.remove('show');
-    document.getElementById('mainContent').style.display = 'none';
-    document.getElementById('deadlineBar').classList.remove('show');
-
-    const icon  = document.getElementById('successIcon');
-    const title = document.getElementById('successTitle');
-    const desc  = document.getElementById('successDesc');
-
-    if (status === 'submitted') {
-      icon.style.background = '#edf8f2';
-      icon.innerHTML =
-        '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1a7a4a" stroke-width="2.5">'
-        + '<path d="M20 6L9 17l-5-5"/></svg>';
-      title.textContent = '제출 완료!';
-      desc.innerHTML =
-        '담당 세무사에게 자동으로 전달되었습니다.<br>'
-        + '신고 준비가 완료되면 별도로 연락드리겠습니다.<br>감사합니다.';
-    } else {
-      icon.style.background = '#fff8ec';
-      icon.innerHTML =
-        '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#d4820a" stroke-width="2.5">'
-        + '<circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>';
-      title.textContent = '확인했습니다.';
-      desc.innerHTML =
-        '제출 자료 없음으로 담당 세무사에게<br>전달되었습니다. 감사합니다.';
-    }
-
-    document.getElementById('successScreen').classList.add('show');
+    document.getElementById('btnSubmitted').disabled = false;
+    document.getElementById('btnNone').disabled = false;
+    document.getElementById('errorBox').classList.add('show');
   }
+}
+
+function showSuccess(status) {
+  document.getElementById('overlay').classList.remove('show');
+  document.getElementById('mainContent').style.display = 'none';
+
+  const icon  = document.getElementById('successIcon');
+  const title = document.getElementById('successTitle');
+  const desc  = document.getElementById('successDesc');
+
+  if (status === 'submitted') {
+    icon.style.background = '#edf8f2';
+    icon.innerHTML = '<i class="ti ti-check" style="color:#1a7a4a" aria-hidden="true"></i>';
+    title.textContent = '제출 완료!';
+    desc.innerHTML =
+      '담당 세무사에게 자동으로 전달되었습니다.<br>'
+      + '신고 준비가 완료되면 별도로 연락드리겠습니다.<br>감사합니다.';
+  } else {
+    icon.style.background = '#fff8ec';
+    icon.innerHTML = '<i class="ti ti-alert-circle" style="color:#d4820a" aria-hidden="true"></i>';
+    title.textContent = '확인했습니다.';
+    desc.innerHTML =
+      '제출 자료 없음으로 담당 세무사에게<br>전달되었습니다. 감사합니다.';
+  }
+
+  document.getElementById('successScreen').classList.add('show');
+}
 </script>
 </body>
 </html>
