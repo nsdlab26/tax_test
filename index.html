@@ -146,13 +146,12 @@ body{
 
   <div class="body">
 
-    <!-- ── Main content ── -->
     <div id="mainContent">
 
       <div class="dates-card">
         <div class="date-row date-row--period">
           <div class="dr-header">
-            <span class="dr-label">자료 제출 기간</span>
+            <span class="dr-label">자료 제출 대상 기간</span>
           </div>
           <div class="dr-date" id="periodDate">-</div>
           <div class="dr-desc">해당 기간의 자료를 제출해 주세요</div>
@@ -163,20 +162,20 @@ body{
             <span class="dr-badge" id="ddayBadge" style="display:none"></span>
           </div>
           <div class="dr-date dr-date--danger" id="deadlineDate">-</div>
-          <div class="dr-desc dr-desc--danger">이 날짜까지 업로드해 주세요</div>
+          <div class="dr-desc dr-desc--danger">이 날짜까지 꼭 업로드 부탁드립니다.</div>
         </div>
       </div>
 
       <div class="notice">
         <i class="ti ti-info-circle" style="color:#1b3a5c;font-size:15px;flex-shrink:0;margin-top:1px" aria-hidden="true"></i>
-        자료 확인 후 드라이브 업로드 → 아래 버튼을 눌러 주세요
+        제출 자료 가이드 확인  →  드라이브 업로드 → 해당하는 버튼 꼭 클릭
       </div>
 
       <div class="links">
         <a class="link-btn" id="notionBtn" href="#" target="_blank" rel="noopener">
           <div class="link-icon"><i class="ti ti-file-description" aria-hidden="true"></i></div>
           <div class="link-text">
-            <span class="link-t1">필요 자료 확인</span>
+            <span class="link-t1">제출 자료 가이드</span>
             <span class="link-t2">노션 안내사항 보기</span>
           </div>
           <span class="link-arr">›</span>
@@ -193,7 +192,6 @@ body{
 
       <div class="divider"></div>
 
-      <!-- Error box -->
       <div class="error-box" id="errorBox">전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.</div>
 
       <div class="cta-row">
@@ -207,10 +205,7 @@ body{
         </button>
       </div>
 
-    </div><!-- /mainContent -->
-
-    <!-- ── Success screen ── -->
-    <div class="success" id="successScreen">
+    </div><div class="success" id="successScreen">
       <div class="success-icon" id="successIcon"></div>
       <h2 id="successTitle"></h2>
       <p id="successDesc"></p>
@@ -219,11 +214,7 @@ body{
       </div>
     </div>
 
-  </div><!-- /body -->
-</div><!-- /card -->
-
-<!-- Loading overlay -->
-<div class="overlay" id="overlay"><div class="spinner"></div></div>
+  </div></div><div class="overlay" id="overlay"><div class="spinner"></div></div>
 
 <script>
 /* ── URL params ─────────────────────────────────────────── */
@@ -298,15 +289,13 @@ function formatKoreanDate(date) {
 }
 
 /* ── 기간 / 마감일 채우기 ───────────────────────────────────── */
-const startDate = parseDate(dateStart);
-const endDate   = parseDate(dateEnd);
-
-if (startDate && endDate) {
-  document.getElementById('periodDate').textContent =
-    `${formatDotDate(startDate)} – ${formatDotDate(endDate)}`;
-} else if (startDate) {
-  document.getElementById('periodDate').textContent = formatDotDate(startDate);
+// 1. 자료 제출 기간: 알림톡에서 넘어온 텍스트(dateStart) 그대로 출력
+if (dateStart) {
+  document.getElementById('periodDate').textContent = dateStart;
 }
+
+// 2. 제출 마감일 및 D-day 계산: dateEnd만 날짜로 변환해서 사용
+const endDate = parseDate(dateEnd);
 
 if (endDate) {
   document.getElementById('deadlineDate').textContent = formatKoreanDate(endDate);
